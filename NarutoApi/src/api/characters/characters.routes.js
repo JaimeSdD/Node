@@ -52,6 +52,8 @@ router.get("/village/:village", (req, res, next) => {
   router.post("/create",upload.single("img"), async (req, res, next) => {
     try {
       const character = req.body;
+      // console.log({character})
+      character.jutsus = JSON.parse(character.jutsus); // to get formData in JSON
       if (req.file) {
         character.img = req.file.path;
       };
@@ -77,6 +79,7 @@ router.get("/village/:village", (req, res, next) => {
     try {
         const { id } = req.params;
         const character = req.body;
+        character.jutsus = JSON.parse(character.jutsus);
         const characterOld = await Character.findById(id);
     if (req.file) {
       if (characterOld.img) {
