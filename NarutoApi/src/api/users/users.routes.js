@@ -39,16 +39,16 @@ router.post("/login", async (req, res) => {
   try {
     const userDB = await User.findOne({ email: req.body.email });
     if (!userDB) {
-      return res.status(404).json("No existe el usuario");
+      return res.status(404).json("Is that you? Do we know each other?");
     }
     if (bcrypt.compareSync(req.body.password, userDB.password)) {
       let token = generateSign(userDB._id, userDB.email);
       return res.status(200).json({ token, userDB });
     } else {
-      return res.status(200).json("Contraseña incorrecta corto y cambio");
+      return res.status(200).json("Thats a invalid password mate");
     }
   } catch (error) {
-    return res.status(500).json("Error al loguear");
+    return res.status(500).json("Log in error");
   }
 });
 
@@ -61,7 +61,7 @@ router.post("/logout", async (req, res) => {
   }
 });
 
-router.post("/checksession", [isAuth], async (req, res) => {
+router.get("/checksession", [isAuth], async (req, res) => {
   try {
     return res.status(200).json(req.user);
   } catch (error) {
